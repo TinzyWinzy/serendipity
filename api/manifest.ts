@@ -1,6 +1,4 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
-
-export default function handler(req: VercelRequest, res: VercelResponse) {
+export default function handler(req: any, res: any) {
   const baseManifest = {
     name: 'Serendipity Suites Zim',
     short_name: 'Serendipity',

@@ -1111,10 +1111,8 @@ function Footer() {
             <h4 className="mb-4 font-mono text-[10px] font-bold uppercase tracking-widest text-brand-gold">Quick Links</h4>
             <ul className="space-y-3">
               <li><a href="#suites" className="flex h-10 items-center font-mono text-[11px] text-brand-cream/60 transition-colors hover:text-brand-gold">Browse Suites</a></li>
-              <li><a href={`tel:${CALL_NUMBER}`} className="flex h-10 items-center font-mono text-[11px] text-brand-cream/60 transition-colors hover:text-brand-gold">Call to Book</a></li>
                 <li><a href={`tel:${CALL_NUMBER}`} className="flex h-10 items-center font-mono text-[11px] text-brand-cream/60 transition-colors hover:text-brand-gold">Call to Book</a></li>
               <li><a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="flex h-10 items-center font-mono text-[11px] text-brand-cream/60 transition-colors hover:text-brand-gold">WhatsApp Booking</a></li>
-                <li><a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="flex h-10 items-center font-mono text-[11px] text-brand-cream/60 transition-colors hover:text-brand-gold">WhatsApp Booking</a></li>
             </ul>
           </div>
         </div>

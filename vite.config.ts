@@ -87,7 +87,6 @@ export default defineConfig(({ command, mode }) => ({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('react')) return 'vendor-react';
             if (id.includes('workbox') || id.includes('workbox-window')) return 'vendor-workbox';
             return 'vendor';
           }

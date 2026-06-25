@@ -7,6 +7,11 @@ import {
   ChevronRight, ChevronLeft, ChevronDown, Sparkles, Star, Check,
 } from 'lucide-react';
 import { SUITES, AMENITY_LABELS, LOCATION_HUBS } from './data';
+import ListingsHarare from './pages/ListingsHarare';
+import BookHarare from './pages/BookHarare';
+import BrandLanding from './pages/BrandLanding';
+import NeighborhoodsGuide from './pages/NeighborhoodsGuide';
+import PenthouseLanding from './pages/PenthouseLanding';
 import type { Suite, FilterMode, StayType, ValidationErrors, AmenityKey, SuiteImage } from './types';
 
 const WHATSAPP_NUMBER = '263716965827';
@@ -140,16 +145,18 @@ function SuiteCarousel({ images, onImageClick }: { images: SuiteImage[]; onImage
 function Header({
   isInstallable,
   onInstall,
+  navigate,
 }: {
   isInstallable: boolean;
   onInstall: () => void;
+  navigate: (path: string) => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-brand-teal/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-8 lg:px-12">
-        <a href="#" className="flex items-center gap-3">
+        <button onClick={() => navigate('/')} className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center border border-brand-gold/40 bg-brand-teal text-base font-bold text-brand-gold">
             S
           </div>
@@ -161,9 +168,10 @@ function Header({
               Suites
             </span>
           </div>
-        </a>
+        </button>
 
         <nav className="hidden items-center gap-6 md:flex">
+          <button onClick={() => navigate('/listings/harare')} className="px-3 font-mono text-xs uppercase tracking-wider text-brand-cream/70 hover:text-brand-gold">Browse Suites</button>
           <a
             href={`tel:${CALL_NUMBER}`}
             className="flex h-11 items-center gap-2 px-3 font-mono text-xs uppercase tracking-wider text-brand-cream/70 transition-colors hover:text-brand-gold"
@@ -216,6 +224,7 @@ function Header({
                   Install App
                 </button>
               )}
+              <button onClick={() => { navigate('/listings/harare'); setMenuOpen(false); }} className="flex h-12 w-full items-center gap-3 border border-white/10 px-4 font-mono text-xs uppercase tracking-wider text-brand-cream/80 transition-colors hover:bg-white/5">Browse Suites</button>
             </div>
           </motion.div>
         )}
@@ -227,7 +236,7 @@ function Header({
 /* ───── Hero with single premium image & Ken Burns ───── */
 const HERO_IMAGE = '/images/platinum/28.jpg';
 
-function HeroSection() {
+function HeroSection({ navigate }: { navigate?: (path: string) => void }) {
   return (
     <section className="relative h-[85vh] min-h-[600px] overflow-hidden">
       <div className="absolute inset-0 animate-hero-zoom">
@@ -280,13 +289,7 @@ function HeroSection() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <a
-                href="#suites"
-                className="flex h-12 items-center gap-2 bg-brand-gold px-8 font-mono text-xs font-bold uppercase tracking-widest text-brand-teal transition-all duration-300 hover:bg-brand-gold-light"
-              >
-                Browse Suites
-                <ChevronRight className="h-4 w-4" />
-              </a>
+              <button onClick={() => navigate?.('/listings/harare')} className="flex h-10 items-center font-mono text-[11px] text-brand-cream/60 transition-colors hover:text-brand-gold">Browse Suites</button>
               <a
                 href={`tel:${CALL_NUMBER}`}
                 className="flex h-12 items-center gap-2 border-2 border-brand-cream/30 px-8 font-mono text-xs font-bold uppercase tracking-widest text-brand-cream transition-all duration-300 hover:border-brand-cream/60"
@@ -1109,12 +1112,17 @@ function Footer() {
             <ul className="space-y-3">
               <li><a href="#suites" className="flex h-10 items-center font-mono text-[11px] text-brand-cream/60 transition-colors hover:text-brand-gold">Browse Suites</a></li>
               <li><a href={`tel:${CALL_NUMBER}`} className="flex h-10 items-center font-mono text-[11px] text-brand-cream/60 transition-colors hover:text-brand-gold">Call to Book</a></li>
+                <li><a href={`tel:${CALL_NUMBER}`} className="flex h-10 items-center font-mono text-[11px] text-brand-cream/60 transition-colors hover:text-brand-gold">Call to Book</a></li>
               <li><a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="flex h-10 items-center font-mono text-[11px] text-brand-cream/60 transition-colors hover:text-brand-gold">WhatsApp Booking</a></li>
+                <li><a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="flex h-10 items-center font-mono text-[11px] text-brand-cream/60 transition-colors hover:text-brand-gold">WhatsApp Booking</a></li>
             </ul>
           </div>
         </div>
-        <div className="mt-12 border-t border-brand-gold/10 pt-6 text-center font-mono text-[10px] text-brand-cream/30">
+          <div className="mt-12 border-t border-brand-gold/10 pt-6 text-center font-mono text-[10px] text-brand-cream/30">
           &copy; {new Date().getFullYear()} Serendipity Suites Zim. All rights reserved.
+        </div>
+        <div className="mt-2 text-center font-mono text-[10px] text-brand-cream/40">
+          Made by Radbitstudios
         </div>
       </div>
     </footer>
@@ -1128,6 +1136,20 @@ export default function App() {
   const [showInstallBanner, setShowInstallBanner] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<Event | null>(null);
   const [isOnline, setIsOnline] = useState(true);
+  const [route, setRoute] = useState<string>(typeof window !== 'undefined' ? window.location.pathname : '/');
+
+  useEffect(() => {
+    const onPop = () => setRoute(window.location.pathname);
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
+  const navigate = useCallback((path: string) => {
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path);
+      setRoute(path);
+    }
+  }, []);
 
   useEffect(() => {
     const handler = (e: Event) => { e.preventDefault(); setInstallPrompt(e); setShowInstallBanner(true); };
@@ -1170,8 +1192,15 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-brand-cream">
-      <Header isInstallable={isInstallable} onInstall={handleInstall} />
-      <HeroSection />
+      <Header isInstallable={isInstallable} onInstall={handleInstall} navigate={navigate} />
+
+      {/* Simple client-side routing */}
+      {route === '/' && <HeroSection navigate={navigate} />}
+      {route === '/listings/harare' && <ListingsHarare />}
+      {route === '/book/harare' && <BookHarare />}
+      {route === '/brand' && <BrandLanding />}
+      {route === '/guides/harare-neighborhoods' && <NeighborhoodsGuide />}
+      {route === '/listings/harare/penthouse' && <PenthouseLanding />}
 
       <motion.section
         className="py-14"

@@ -1,8 +1,6 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "package.json", "use": "@vercel/static-build" }
-  ],
+  
   "routes": [
     {
       "src": "/service-worker.js",
@@ -36,7 +34,7 @@
     }
   ],
   "functions": {
-    "api/manifest.js": {
+    "api/manifest.ts": {
       "memory": 128,
       "maxDuration": 5
     }
